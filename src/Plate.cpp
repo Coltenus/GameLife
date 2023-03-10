@@ -73,9 +73,12 @@ namespace gml {
         _check = false;
     }
 
-    void Plate::ResetStatus() {
+    void Plate::ResetStatus(float& offset) {
+        offset = GetTime();
         _active = false;
         ResetCheck();
+        if((int)(_posArray.x+_posArray.y)%4 == 0)
+            _active = true;
     }
 
     int Plate::CheckNeighbors() {

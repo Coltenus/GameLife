@@ -31,8 +31,10 @@ int main() {
     while (!done && !WindowShouldClose()) {
         if(IsKeyPressed(KEY_R))
             for (auto& row: plates)
-                for (auto& el: row)
-                    el.ResetStatus();
+                for (auto& el: row) {
+                    el.ResetStatus(offset);
+                    time = 0;
+                }
         if(IsKeyPressed(KEY_SPACE)) {
             if(pause)
                 offset += GetTime() - stopT;
