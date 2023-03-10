@@ -32,7 +32,7 @@ namespace gml {
         void Invert(bool check = false);
         bool GetStatus();
         void ResetCheck();
-        void ResetStatus(float& offset);
+        void ResetStatus();
         int CheckNeighbors();
     };
 
