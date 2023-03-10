@@ -10,29 +10,35 @@ int main() {
     SetTargetFPS(120);
     bool done = false;
     bool pause = true;
+    float time, stopT;
+    float offset = 0;
     std::array<std::array<gml::Plate, WIDTH/PL_W>, HEIGHT/PL_H> plates;
     {
         float i = 0, j = 0;
-        int t;
         for (auto &row: plates) {
             j = 0;
             for (auto &el: row) {
                 el.SetPos({j*PL_W, i*PL_H});
                 el.SetPlates(plates);
-                t = GetTime()*1000000;
-                if(t%2 == 0) el.Invert();
+                if((int)(i+j)%4 == 0)el.Invert();
                 j++;
             }
             i++;
         }
     }
 
+    stopT = GetTime();
     while (!done && !WindowShouldClose()) {
         if(IsKeyPressed(KEY_R))
             for (auto& row: plates)
                 for (auto& el: row)
                     el.ResetStatus();
-        if(IsKeyPressed(KEY_SPACE)) pause = !pause;
+        if(IsKeyPressed(KEY_SPACE)) {
+            if(pause)
+                offset += GetTime() - stopT;
+            else stopT = GetTime();
+            pause = !pause;
+        }
         if(!pause) {
             for (auto &row: plates)
                 for (auto &el: row)
@@ -50,7 +56,9 @@ int main() {
             for (auto& el: row)
                 el.Draw();
         if(pause)
-            DrawText("Pause", 10, 10, 20, GREEN);
+            DrawText("Paused", WIDTH - 80, 35, 20,  WHITE);
+        else time = GetTime() - offset;
+        DrawText(TextFormat("%4d:%02d:%02d", (int)time/3600, (int)time/60%60, (int)time%60), WIDTH - 100, 10, 20, WHITE);
         EndDrawing();
     }
     return 0;
