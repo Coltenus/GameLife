@@ -10,7 +10,7 @@ int main() {
     SetTargetFPS(120);
     bool done = false;
     bool pause = true;
-    float time, stopT;
+    float time = 0, stopT;
     float offset = 0;
     std::array<std::array<gml::Plate, WIDTH/PL_W>, HEIGHT/PL_H> plates;
     {
